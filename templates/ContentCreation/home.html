@@ -3,12 +3,12 @@
 {% block title %}Home - My Blog{% endblock %}
 
 {% block content %}
-    <h1>Welcome to My Blog</h1>
+    <h1>Home</h1>
 
     <div class="blog-list">
         {% for blog in latest_blogs %}
             <article class="blog-post">
-                <h2>{{ blog.heading }}</h2>
+                <h2><a href="{% url 'display_blog_post' blog.slug %}">{{ blog.heading }}</a></h2>
                 <div class="content">
                     {{ blog.content|safe }}
                 </div>
