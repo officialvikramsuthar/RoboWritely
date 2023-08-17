@@ -7,4 +7,4 @@ from .models import Content
 def display_blog_post(request, slug):
     blog_post = get_object_or_404(Content, slug=slug)
     context = {'blog_post': blog_post}
-    return render(request, 'contentgenerator/blog_post.html', context)
+    return render(request, 'ContentCreation/blogpost.html', context)
