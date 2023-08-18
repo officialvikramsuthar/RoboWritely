@@ -10,7 +10,6 @@ django-cron==0.6.0
 frozenlist==1.4.0
 idna==3.4
 multidict==6.0.4
-openai==0.27.8
 psycopg2-binary==2.9.7
 requests==2.31.0
 sqlparse==0.4.4
