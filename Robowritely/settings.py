@@ -125,6 +125,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 CRON_CLASSES = [
-    'contentgenerator.cron.GenerateContentCronJob',
+    'ContentCreation.cron.GenerateContentCronJob',
     # Add more cron jobs here if needed
 ]
