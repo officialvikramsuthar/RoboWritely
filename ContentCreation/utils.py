@@ -69,3 +69,7 @@ class CreateGptBlog():
 
         return conclusion_prompt
 
+    def get_image_prompt(self, heading):
+        image_prompt = f"""I am writing a blog about about {self.title} and one of the heading is {heading}, can you create an image which represents the heading {heading} correctly. The image should be copyright free and should not violate any rules for use.
+                        """
+
