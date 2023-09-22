@@ -1,14 +1,28 @@
 import os
 
 from django_cron import CronJobBase, Schedule
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-
+from .models import Content
+import csv
+import openai
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service as ChromeService
 import time
-from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
+
+from handler.chatgpt_selenium_automation import ChatGPTAutomation
+import csv
+import os
+
+
+def create_file(filename, content):
+    directory_name = "conversations"
+    if not os.path.exists(directory_name):
+        os.makedirs(directory_name)
+
+    with open(os.path.join(directory_name, file_name), "a") as file:
+        file.write(content)
+
 
 
 class GenerateContentCronJob(CronJobBase):
@@ -19,88 +33,43 @@ class GenerateContentCronJob(CronJobBase):
 
     def do(self):
 
-        BASE_DIR = os.path.dirname(os.path.realpath(__file__))
-        DRIVER_PATH = os.path.realpath(os.path.join(BASE_DIR, '../chromedriver/chromedriver'))
+        # Define the path where the chrome driver is installed on your computer
+        chrome_driver_path = r"D:\Python\Chatgpt\chromedriver\chromedriver.exe"
 
-        # URL of the website you want to visit (e.g., ChatGPT interface)
-        HOME = os.path.expanduser('~')
-        chrome_options = Options()
-        chrome_options.add_argument("user-data-dir=/home/vikram/.config/google-chrome/Profile 1")
-        service = ChromeService(executable_path=DRIVER_PATH)
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-        driver.get(r'https://www.google.co.in')
-        time.sleep(5)
-        driver.quit()
+        # the sintax r'"..."' is required because the space in "Program Files" 
+        # in my chrome_path
+        chrome_path = r'"C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe"'
 
+        # Create an instance
+        chatgpt = ChatGPTAutomation(chrome_path, chrome_driver_path)
 
+        # opening the CSV file
+        with open('keywords.csv', mode ='r')as file:
+        
+            # reading the CSV file
+            csvFile = csv.reader(file)
+            
+            # displaying the contents of the CSV file
+            for index, lines in enumerate(csvFile):
+                    if index == 0:
+                        continue
+                    
+                    if len(lines) > 0 and index < 2:
+                        print()
+                        try:
+                            # Define a prompt and send it to chatGPT
+                            topic = "".join(lines)
+                            prompt = f"""Write an informative and objective article about "{topic}". Your article should provide a comprehensive analysis of the key factors that impact {topic}, including "{topic}". To make your article informative and engaging, be sure to discuss the trade-offs involved in balancing different factors, and explore the challenges associated with different approaches. Your article should also highlight the importance of considering the impact on when making decisions about {topic}. Finally, your article should be written in an informative and objective tone that is accessible to a general audience. Make sure to include the relevant keywords provided by the user, and tailor the article to their interests and needs. Every heading should be in  quotes and square brackets. For example [{topic} Heading ] and title should be in <> for example  <{topic}>"""
+                            chatgpt.send_prompt_to_chatgpt(prompt)
 
-def chatgpt_code():
-    driver.get(r'https://mail.google.com/mail/u/0/#inbox')
+                            # Retrieve the last response from chatGPT
+                            response = chatgpt.return_last_response()
+                            
+                            file_name = "{}.txt".format(topic)
+                            create_file(file_name, response)
 
-    loginBox = driver.find_element("xpath", '//*[@id="identifierId"]')
-    loginBox.send_keys("vikram@trendlyne.com")
+                        except Exception as e:
+                            print(e)
+                            chatgpt.star_new_chat()
 
-    nextButton = driver.find_element("xpath", '//*[@id="identifierNext"]/div/button')
-    nextButton.click()
-    time.sleep(3)
-
-    passWordBox = driver.find_element("xpath", '//*[@id ="password"]/div[1]/div / div[1]/input')
-    passWordBox.send_keys("V!kr@m9890")
-
-    nextButton = driver.find_element("xpath", '//*[@id ="passwordNext"]')
-    nextButton.click()
-
-    time.sleep(10)
-
-    driver.get("https://chat.openai.com/auth/login")
-    time.sleep(5)
-
-    nextButton = driver.find_element("xpath", '//*[@id="__next"]/div[1]/div[2]/div[1]/div/button[1]')
-    nextButton.click()
-    time.sleep(8)
-
-    nextButton = driver.find_element("xpath", "/html/body/div/main/section/div/div/div/div[4]/form[2]/button")
-    nextButton.click()
-    time.sleep(8)
-
-    nextButton = driver.find_element("xpath",
-                                     '//*[@id="view_container"]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div/ul/li[1]/div')
-    nextButton.click()
-    time.sleep(15)
-
-    try:
-        nextButton = driver.find_element("xpath",
-                                         '//*[@id="radix-:ri:"]/div[2]/div/div[4]/button')
-        nextButton.click()
-
-    except Exception as e:
-        print(e)
-
-    prompt = "Write a blog of 4000 words about 'Indian Ancient History' in a heading and paragraph format"
-
-    passWordBox = driver.find_element("xpath", '//*[@id="prompt-textarea"]')
-    passWordBox.send_keys(prompt)
-    time.sleep(10)
-    nextButton = driver.find_element("xpath",
-                                     '//*[@id="__next"]/div[1]/div[2]/div/main/div/div[2]/form/div/div[2]/button')
-    nextButton.click()
-
-    time.sleep(45)
-    content = driver.find_element("xpath",
-                                  '//*[@id="__next"]/div[1]/div/div/main/div/div[1]/div/div/div/div[2]/div/div[2]/div[1]/div/div').text
-    print(content)
-    time.sleep(5)
-
-    nextButton = driver.find_element("xpath",
-                                     '//*[@id="__next"]/div[1]/div[2]/div/main/div/div[1]/div/div/div/div[1]/div/div[2]/div[2]/button')
-
-    nextButton.click()
-
-    prompt = "Write a blog of 4000 words about 'indian history of 19th August' in a heading and paragraph format"
-    passWordBox = driver.find_element("xpath", '//*[@id="prompt-textarea"]')
-    passWordBox.send_keys(prompt)
-    time.sleep(15)
-
-    nextButton = driver.find_element("xpath",
-                                     '//*[@id="__next"]/div[1]/div[2]/div/main/div/div[2]/form/div/div[2]/button')
-    nextButton.click()
+            chatgpt.quit()

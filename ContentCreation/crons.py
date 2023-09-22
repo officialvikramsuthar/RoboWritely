@@ -10,6 +10,20 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service as ChromeService
 import time
 
+from ContentCreation.handler.chatgpt_selenium_automation import ChatGPTAutomation
+import csv
+import os
+
+
+def create_file(filename, content):
+    directory_name = "conversations"
+    if not os.path.exists(directory_name):
+        os.makedirs(directory_name)
+
+    with open(os.path.join(directory_name, filename), "a") as file:
+        file.write(content)
+
+
 
 class GenerateContentCronJob(CronJobBase):
     RUN_AT_TIMES = ['00:00']  # Run at midnight
@@ -18,52 +32,45 @@ class GenerateContentCronJob(CronJobBase):
     code = 'ContentCreation.GenerateContentCronJob'
 
     def do(self):
-        # # Set up your OpenAI API key
-        # file_path =
-        # with open('.csv', 'r') as csv_file:
-        #
-        # Path to your WebDriver executable (e.g., chromedriver.exe)
-        import ipdb
-        ipdb.set_trace()
-        BASE_DIR = os.path.dirname(os.path.realpath(__file__))
-        DRIVER_PATH = os.path.realpath(os.path.join(BASE_DIR, '../chromedriver/chromedriver'))
 
-        # URL of the website you want to visit (e.g., ChatGPT interface)
-        website_url = 'https://chat.openai.com/'
+        # Define the path where the chrome driver is installed on your computer
+        chrome_driver_path = r"D:\Python\RoboWritely\ContentCreation\chromedriver\chromedriver.exe"
 
-        # Text you want to type into the chat
-        input_text = "Hello, ChatGPT!"
+        # the sintax r'"..."' is required because the space in "Program Files" 
+        # in my chrome_path
+        chrome_path = r'"C:\Program Files (x86)\Google\Chrome\Application\Chrome.exe"'
+        print(chrome_driver_path)
+        # Create an instance
+        chatgpt = ChatGPTAutomation(chrome_path, chrome_driver_path)
+        file_path = 'D:\Python\RoboWritely\ContentCreation\keywords.csv'
 
-        chrome_options = Options()
-        chrome_options.add_argument("--disable-infobars")
-        # chrome_options.add_argument("--disable-extensions")
-        # chrome_options.add_argument("--disable-popup-blocking")
-        # chrome_options.add_argument('--headless')
-        chrome_options.add_argument("--disable-application-cache")
-        # chrome_options.add_argument('--disable-gpu')
+        # opening the CSV file
+        with open(file_path, mode ='r')as file:
+        
+            # reading the CSV file
+            csvFile = csv.reader(file)
+            
+            # displaying the contents of the CSV file
+            for index, lines in enumerate(csvFile):
+                    if index == 0:
+                        continue
+                    
+                    if len(lines) > 0 and index < 2:
+                        print()
+                        try:
+                            # Define a prompt and send it to chatGPT
+                            topic = "".join(lines)
+                            prompt = f"""Write an informative and objective article about "{topic}". Your article should provide a comprehensive analysis of the key factors that impact {topic}, including "{topic}". To make your article informative and engaging, be sure to discuss the trade-offs involved in balancing different factors, and explore the challenges associated with different approaches. Your article should also highlight the importance of considering the impact on when making decisions about {topic}. Finally, your article should be written in an informative and objective tone that is accessible to a general audience. Make sure to include the relevant keywords provided by the user, and tailor the article to their interests and needs. Every heading should be in  quotes and square brackets. For example [{topic} Heading ] and title should be in <> for example  <{topic}>"""
+                            chatgpt.send_prompt_to_chatgpt(prompt)
 
-        # Create a new instance of the web driver (e.g., Chrome)
-        service = ChromeService(executable_path=DRIVER_PATH)
-        browser = webdriver.Chrome(service=service, options=chrome_options)
+                            # Retrieve the last response from chatGPT
+                            response = chatgpt.return_last_response()
+                            
+                            file_name = "{}.txt".format(topic)
+                            create_file(file_name, response)
 
-        # Open the website
-        browser.get(website_url)
+                        except Exception as e:
+                            print(e)
+                            chatgpt.star_new_chat()
 
-        # Wait for some time to let the page load
-        time.sleep(10)
-
-        # Find the chat input element by its HTML attribute (inspect the webpage to get the appropriate selector)
-        input_element = browser.find_element_by_css_selector('input[type="text"]')
-
-        # Type the input_text into the chat
-        input_element.send_keys(input_text)
-
-        # Press the Enter key to send the message
-        input_element.send_keys(Keys.RETURN)
-
-        # Wait for a few seconds to see the result
-        time.sleep(3)
-
-        # Close the browser
-        browser.quit()
-
+            chatgpt.quit()
