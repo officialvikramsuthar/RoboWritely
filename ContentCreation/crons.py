@@ -1,7 +1,7 @@
 import os
 
 from django_cron import CronJobBase, Schedule
-from .models import Content
+from .models import BlogPost
 import csv
 import openai
 from selenium import webdriver
@@ -13,6 +13,8 @@ import time
 from ContentCreation.handler.chatgpt_selenium_automation import ChatGPTAutomation
 import csv
 import os
+
+from .utils import CreateGptBlog
 
 
 def create_file(filename, content):
@@ -58,6 +60,22 @@ class GenerateContentCronJob(CronJobBase):
                     if len(lines) > 0 and index < 2:
                         print()
                         try:
+                            topic = "".join(lines)
+                            obj = CreateGptBlog(topic)
+                            blog = []
+                            title_prompt = obj.get_title_and_meta_descriptions()
+                            chatgpt.send_prompt_to_chatgpt(prompt)
+                            # Retrieve the last response from chatGPT
+                            title_response = chatgpt.return_last_response()
+                            blog.append(title_response)
+
+                            headings_prompt = obj.get_heading_prompt()
+
+                            chatgpt.send_prompt_to_chatgpt(headings_prompt)
+                            heading_response = chatgpt.return_last_response()
+
+                            obj.set_heading(heading_response)
+
                             # Define a prompt and send it to chatGPT
                             topic = "".join(lines)
                             prompt = f"""Write an informative and objective article about "{topic}". Your article should provide a comprehensive analysis of the key factors that impact {topic}, including "{topic}". To make your article informative and engaging, be sure to discuss the trade-offs involved in balancing different factors, and explore the challenges associated with different approaches. Your article should also highlight the importance of considering the impact on when making decisions about {topic}. Finally, your article should be written in an informative and objective tone that is accessible to a general audience. Make sure to include the relevant keywords provided by the user, and tailor the article to their interests and needs. Every heading should be in  quotes and square brackets. For example [{topic} Heading ] and title should be in <> for example  <{topic}>"""
