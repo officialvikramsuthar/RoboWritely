@@ -5,6 +5,8 @@
 {% block content %}
 
 <h1>{{ blog_post.heading }}</h1>
-<div>{{ blog_post.content }}</div>
+{% for para in paragraphs %}
+    {{para.content | safe}}
+{% endfor %}
 
 {% endblock %}

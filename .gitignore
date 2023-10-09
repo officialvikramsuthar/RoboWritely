@@ -2,6 +2,10 @@
 *.log
 *.pot
 *.pyc
+*.csv
+/audiobooks
+/conversations
+/remote-profile
 __pycache__
 Robowritely/db.sqlite3
 media

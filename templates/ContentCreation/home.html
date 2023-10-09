@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}Home - My Blog{% endblock %}
 
 {% block content %}
@@ -8,9 +7,9 @@
     <div class="blog-list">
         {% for blog in latest_blogs %}
             <article class="blog-post">
-                <h2><a href="{% url 'display_blog_post' blog.slug %}">{{ blog.heading }}</a></h2>
+                <h2><a href="{% url 'display_blog_post' blog.id blog.slug %}">{{ blog.heading }}</a></h2>
                 <div class="content">
-                    {{ blog.content|safe }}
+                    {{ blog.intro | safe | slice:":500" }}
                 </div>
                 <p class="timestamp">{{ blog.timestamp }}</p>
             </article>

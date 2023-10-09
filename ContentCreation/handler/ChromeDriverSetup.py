@@ -9,9 +9,9 @@ import os
 
 
 
-class ChatGPTAutomation:
+class ChromeDriverAutomation:
 
-    def __init__(self, chrome_path, chrome_driver_path):
+    def __init__(self, chrome_path, chrome_driver_path, url, download_folder=None):
         """
         This constructor automates the following steps:
         1. Open a Chrome browser with remote debugging enabled at a specified URL.
@@ -25,11 +25,12 @@ class ChatGPTAutomation:
         self.chrome_path = chrome_path
         self.chrome_driver_path = chrome_driver_path
 
-        url = r"https://chat.openai.com"
+        url = url
         free_port = self.find_available_port()
         self.launch_chrome_with_remote_debugging(free_port, url)
         self.wait_for_human_verification()
         self.driver = self.setup_webdriver(free_port)
+        self.download_folder = download_folder
 
 
 
@@ -62,6 +63,10 @@ class ChatGPTAutomation:
              with remote debugging enabled on the specified port"""
 
         chrome_options = webdriver.ChromeOptions()
+        # if self.download_folder:
+        #     chrome_options.add_experimental_option('prefs', {
+        #         'download.default_directory': self.download_folder,
+        #     })
         chrome_options.add_experimental_option("debuggerAddress", f"127.0.0.1:{port}")
         driver = webdriver.Chrome(service=ChromeService(executable_path=self.chrome_driver_path), options=chrome_options)
         return driver
