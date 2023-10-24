@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = "django-insecure-9vm*a2q5^lwf@-yc_g_w=ts4uq@7aak1i&6fdh^25vkfq4c4w=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["51.20.32.162", "ec2-51-20-32-162.eu-north-1.compute.amazonaws.com"]
 
 
 # Application definition
@@ -129,3 +130,6 @@ CRON_CLASSES = [
     'ContentCreation.cron.StoreContentFromFile',
     # Add more cron jobs here if needed
 ]
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
