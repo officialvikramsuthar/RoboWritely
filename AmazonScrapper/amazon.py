@@ -43,6 +43,7 @@ def scrap_product_data():
         for url in urllist.read().splitlines():
             data = scrape(url)
             if data:
+                data.setdefault("url",url)
                 json.dump(data,outfile)
                 outfile.write("\n")
                 # sleep(5)

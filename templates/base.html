@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Blog{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         /* Custom CSS for sticky footer layout */
         body {
@@ -24,6 +25,22 @@
         a{
         text-decoration:none;
         }
+        .blog_container{
+            padding : 0 10rem;
+        }
+        body{
+            font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+        }
+        .blog-sub-section-para{
+            font-size: 20px;
+        }
+        button{
+            margin-top: 2rem !important;
+            margin-bottom: 2rem !important;
+        }
+        img{
+            height: 300px !important;
+        }
     </style>
 </head>
 <body>
@@ -31,7 +48,7 @@
         {% include 'header.html' %}
     </header>
 
-    <div class="container mt-4">
+    <div class="container my-5 blog_container">
         {% block content %}
         {% endblock %}
     </div>

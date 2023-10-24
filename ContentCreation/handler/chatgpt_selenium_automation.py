@@ -8,7 +8,6 @@ import threading
 import os
 
 
-
 class ChatGPTAutomation:
 
     def __init__(self, chrome_path, chrome_driver_path):
@@ -68,7 +67,7 @@ class ChatGPTAutomation:
 
 
 
-    def send_prompt_to_chatgpt(self, prompt):
+    def send_prompt_to_chatgpt(self, prompt, wait_time=20):
         """ Sends a message to ChatGPT and waits for 20 seconds for the response """
 
         input_box = self.driver.find_element(by=By.XPATH, value='//textarea[contains(@placeholder, "Send a message")]')
@@ -76,7 +75,7 @@ class ChatGPTAutomation:
         input_box.send_keys(prompt)
         input_box.send_keys(Keys.RETURN)
         input_box.send_keys(Keys.RETURN)
-        time.sleep(20)
+        time.sleep(wait_time)
 
 
 

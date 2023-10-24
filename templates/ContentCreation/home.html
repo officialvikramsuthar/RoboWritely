@@ -9,7 +9,7 @@
             <article class="blog-post">
                 <h2><a href="{% url 'display_blog_post' blog.id blog.slug %}">{{ blog.heading }}</a></h2>
                 <div class="content">
-                    {{ blog.intro | safe | slice:":500" }}
+                    {{ blog.intro | safe | slice:":500" }}... 
                 </div>
                 <p class="timestamp">{{ blog.timestamp }}</p>
             </article>

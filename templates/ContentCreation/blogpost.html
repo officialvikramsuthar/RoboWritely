@@ -4,9 +4,10 @@
 
 {% block content %}
 
-<h1>{{ blog_post.heading }}</h1>
+<h1 class="my-4">{{ blog_post.heading }}</h1>
+<div class="mt-5">
 {% for para in paragraphs %}
     {{para.content | safe}}
 {% endfor %}
-
+</div>
 {% endblock %}

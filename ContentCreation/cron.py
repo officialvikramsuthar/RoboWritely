@@ -26,14 +26,6 @@ import time
 from icecream import ic
 
 
-def create_file(filename, content, directory_name="conversations"):
-    if not os.path.exists(directory_name):
-        os.makedirs(directory_name)
-
-    with open(os.path.join(directory_name, filename), "a") as file:
-        file.write(content)
-
-
 class GenerateContentCronJob(CronJobBase):
     RUN_AT_TIMES = ['00:00']  # Run at midnight
 
@@ -158,7 +150,8 @@ class StoreContentFromFile(CronJobBase):
             folder_path = os.path.join(BASE_DIR, "../conversations/")
 
         else:
-            pass
+            BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+            folder_path = os.path.join(BASE_DIR, "../conversations/")
 
         # Check if the folder exists
         if os.path.exists(folder_path):
