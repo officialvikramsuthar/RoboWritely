@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Blog - {{ blog_post.heading }}{% endblock %}
+{% block title %}
+ <meta name="keywords" content="product reviews, top products, buying guide, recommendations, best in class, consumer advice">
+<meta name="description" content= {{ blog.intro }}>
+<title>Marketing Insight HQ- {{blog_post.heading}}</title>
+{% endblock %}
 
 {% block content %}
 
