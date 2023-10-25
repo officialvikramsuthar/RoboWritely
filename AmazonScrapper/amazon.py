@@ -25,6 +25,9 @@ def scrape(url):
     }
 
     # Download the page using requests
+    if "amazon.com" not in url:
+        url = "https://www.amazon.com" + url
+
     print("Downloading %s"%url)
     r = requests.get(url, headers=headers)
     # Simple check to check if page was blocked (Usually 503)

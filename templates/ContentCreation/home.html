@@ -6,12 +6,12 @@
 
     <div class="blog-list">
         {% for blog in latest_blogs %}
-            <article class="blog-post">
-                <h2><a href="{% url 'display_blog_post' blog.id blog.slug %}">{{ blog.heading }}</a></h2>
+            <article class="blog-post card p-3 mb-3">
+                <h3><a href="{% url 'display_blog_post' blog.id blog.slug %}">{{ blog.heading }}</a></h3>
                 <div class="content">
-                    {{ blog.intro | safe | slice:":500" }}... 
+                    {{ blog.intro | safe | slice:":300" }}...
                 </div>
-                <p class="timestamp">{{ blog.timestamp }}</p>
+                <p class="timestamp">{{ blog.created_at }}</p>
             </article>
         {% endfor %}
     </div>

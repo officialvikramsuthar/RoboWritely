@@ -40,13 +40,27 @@ def scrape(url):
 
 def scrap_search_results():
     # product_data = []
+    products_urls = []
     with open(BASE_PATH + "/search_results_urls.txt",'r') as urllist, open(BASE_PATH + '/search_results_output.jsonl','w') as outfile:
         for url in urllist.read().splitlines():
             data = scrape(url)
             if data:
                 for product in data['products']:
-                    product['search_url'] = url
-                    print("Saving Product: %s"%product['title'])
-                    json.dump(product,outfile)
-                    outfile.write("\n")
+                    reviews_count = product.get("reviews", "")
+                    reviews_count = reviews_count.replace(",", "")
+                    if int(reviews_count) > 3000:
+                        prod_url = product.get("url", "")
+                        products_urls.append(prod_url)
+                        product['search_url'] = url
+                        print("Saving Product: %s"%product['title'])
+                        json.dump(product,outfile)
+                        outfile.write("\n")
                     # sleep(5)
+
+    with open(BASE_PATH + "/urls.txt", 'w') as urllist:
+        for url in products_urls:
+            urllist.write(url)
+            urllist.write("\n")
+
+
+

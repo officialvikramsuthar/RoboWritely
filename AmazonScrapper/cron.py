@@ -24,14 +24,14 @@ class ScrapSearchContentCronJob(CronJobBase):
         scrap_search_results()
 
 
-class ScrapSearchContentCronJob(CronJobBase):
+class ScrapProductContentCronJob(CronJobBase):
     RUN_AT_TIMES = ['00:00']  # Run at midnight
 
     schedule = Schedule(run_at_times=RUN_AT_TIMES)
     code = 'ContentCreation.ScrapSearchContentCronJob'
 
     def do(self):
-        scrap_search_results()
+        scrap_product_data()
 
 
 class WriteAmazonBlog(CronJobBase):
@@ -48,7 +48,7 @@ class WriteAmazonBlog(CronJobBase):
         # opening the CSV file
         with jsonlines.open(file_path, mode='r') as reader: 
             chatgpt.star_new_chat()
-            prompt_obj = AmazonScrapperPrompats("Top 5 polaroid Camera")
+            prompt_obj = AmazonScrapperPrompats("Top 7 home vacuum cleaner cordless")
             blog = []
 
             # Meta Description
@@ -83,12 +83,12 @@ class WriteAmazonBlog(CronJobBase):
                     
                 try:
                     name=lines.get("name", "")
-                    description = lines.get("product_description")
-                    short_description = lines.get("short_description", "")
+                    product_description = str(lines.get("product_description"))
+                    short_description = str(lines.get("short_description", ""))
+                    description = short_description + product_description
                     price = lines.get("price", "")
 
                     if name and description:
-                        description += short_description
                         para_initial_prompt = prompt_obj.get_product_prompt_initial_prompt()
                         chatgpt.send_prompt_to_chatgpt(para_initial_prompt, wait_time=5)
                         product_prompt = prompt_obj.get_product_para(name,description, price)
@@ -129,7 +129,7 @@ class WriteAmazonBlog(CronJobBase):
             blog.append("</div>")
 
             response = "".join(blog)
-            file_name = "{}.txt".format("Top 5 polaroid Camera")
+            file_name = "{}.txt".format("Top 7 home vacuum cleaner cordless")
             create_file(file_name, response)
 
             chatgpt.quit()
