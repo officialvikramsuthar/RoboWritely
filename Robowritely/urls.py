@@ -14,12 +14,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
+from django.template.defaulttags import url
 from django.urls import path, include
+from django.contrib.sitemaps.views import sitemap
+from django.views.generic import TemplateView
+
+from Robowritely.sitemaps import BlogSitemap
+
+sitemaps = {
+    "blog": BlogSitemap,
+}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('ContentCreation.urls')),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap", ),
+    path(r'robots.txt', TemplateView.as_view(template_name=settings.ROBOTSTXTFILENAME, content_type='text/plain')),
 ]
 
 

@@ -1,6 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 
 # Create your models here.
@@ -23,3 +24,6 @@ class BlogPost(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.slug)
         super(BlogPost, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('display_blog_post', kwargs={'id': self.pk, 'slug':self.slug})
