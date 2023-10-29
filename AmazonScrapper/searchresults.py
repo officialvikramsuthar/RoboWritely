@@ -48,7 +48,7 @@ def scrap_search_results():
                 for product in data['products']:
                     reviews_count = product.get("reviews", "")
                     reviews_count = reviews_count.replace(",", "")
-                    if int(reviews_count) > 3000:
+                    if int(reviews_count) > 1000:
                         prod_url = product.get("url", "")
                         products_urls.append(prod_url)
                         product['search_url'] = url

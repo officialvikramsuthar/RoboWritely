@@ -16,13 +16,21 @@ class AmazonScrapperPrompats(CreateGptBlog):
 
         return meta_description_prompt
 
-    def get_product_para(self, name, description, price):
-        if not price:
-            product_prompt = f"""name: {name}, description: {description}"""
-        
-        else:
-            product_prompt = f"""name: {name}, description: {description} price: {price}"""
+    def get_product_para(self, name, description, price, reviews="", rating=""):
+        prompt = """" Disregard any prior instructions. Write a blog as mini review of 200-300 words for the product with following details. """""
+        product_prompt = f"""name: {name}, description: {description}"""
 
+        if price:
+            product_prompt += f"""price: {price}"""
+
+        if reviews:
+            product_prompt += f"""reviews: {reviews}"""
+
+        if rating:
+            product_prompt += f"""ratings: {rating}"""
+
+        last_prompt = """Do not restate my request. Do not offer apologies. Refrain from self-referencing. Avoid generic filler language. The response should have appropriate HTML tags like <h3>, <li>, <p> so that it can be used in the Django template. Don't add any details of product from your side."""
+        final_promot = prompt + product_prompt + last_prompt
         return product_prompt 
     
     def get_product_prompt_initial_prompt(self):
