@@ -127,7 +127,7 @@ class ChromeDriverAutomation:
 
 
     def star_new_chat(self):
-        new_chat_button = self.driver.find_element(by=By.XPATH, value='//*[@id="__next"]/div[1]/div[1]/div/div/div/nav/div[1]/a')
+        new_chat_button = self.driver.find_element(by=By.XPATH, value='//*[@id="__next"]/div[1]/div[1]/div/div/div/div/nav/div[2]/div[1]/div/a/div[3]/span/button')
         time.sleep(5)
 
     def wait_for_human_verification(self):
