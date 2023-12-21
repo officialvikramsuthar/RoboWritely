@@ -45,8 +45,13 @@ class CreateGptBlog(object):
 
         return image_prompt
 
+    # def get_title_prompt(self):
+    #     title_prompt = f"""Disregard any prior instructions. Your responses should only be in English. Assume the role of a highly skilled SEO and top-tier copywriter who can fluently speak and write in English. Pretend that your English writing abilities are exceptional enough to surpass competing websites. Imagine that your content in English is of such high quality that it can outperform other sites. Refrain from stating that numerous factors affect search rankings. I am aware that content quality is just one aspect, and your mission is to create the best content possible, not to inform me about general SEO guidelines. I will provide the title "{self.title}" for an article that we aim to outshine on Google. Do not restate my request. Do not offer apologies. Refrain from self-referencing. Avoid generic filler language. Give SEO friendly Title for the blog on "{self.title}". The response should contain the title only. No other information should be there in the response."""
+    #
+    #     return title_prompt
+
     def get_title_prompt(self):
-        title_prompt = f"""Disregard any prior instructions. Your responses should only be in English. Assume the role of a highly skilled SEO and top-tier copywriter who can fluently speak and write in English. Pretend that your English writing abilities are exceptional enough to surpass competing websites. Imagine that your content in English is of such high quality that it can outperform other sites. Refrain from stating that numerous factors affect search rankings. I am aware that content quality is just one aspect, and your mission is to create the best content possible, not to inform me about general SEO guidelines. I will provide the title "{self.title}" for an article that we aim to outshine on Google. Do not restate my request. Do not offer apologies. Refrain from self-referencing. Avoid generic filler language. Give SEO friendly Title for the blog on "{self.title}". The response should contain the title only. No other information should be there in the response."""
+        title_prompt = f""" Get me the blog title for the keyword "{self.title}" in simple text format."""
 
         return title_prompt
 

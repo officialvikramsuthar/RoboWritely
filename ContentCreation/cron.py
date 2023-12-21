@@ -3,7 +3,9 @@
 
 from django_cron import CronJobBase, Schedule
 from selenium.webdriver.support.wait import WebDriverWait
+import shutil
 
+from AmazonScrapper.cron import WriteAmazonBlog
 from ContentCreation.handler.ChromeDriverSetup import ChromeDriverAutomation
 from ContentCreation.handler.chatgpt_selenium_automation import ChatGPTAutomation
 from selenium.webdriver.support import expected_conditions as EC
@@ -27,6 +29,7 @@ from icecream import ic
 
 
 class GenerateContentCronJob(CronJobBase):
+    # This Generaters Content from ChatGPT and store into a file.
     RUN_AT_TIMES = ['00:00']  # Run at midnight
 
     schedule = Schedule(run_at_times=RUN_AT_TIMES)
@@ -153,6 +156,8 @@ class StoreContentFromFile(CronJobBase):
             BASE_DIR = os.path.dirname(os.path.realpath(__file__))
             folder_path = os.path.join(BASE_DIR, "../conversations/")
 
+        destination_path = os.path.join(BASE_DIR, "../StoredFiles/")
+
         # Check if the folder exists
         if os.path.exists(folder_path):
             # Loop through all the files in the folder
@@ -184,7 +189,7 @@ class StoreContentFromFile(CronJobBase):
                         for intro in divs_with_class:
                             intro = str(intro)
                             intro_content = intro
-                            intro = intro.replace("<h2>Introduction</h2>", "")
+                            # intro = intro.replace("<h2>Introduction</h2>", "")
                             blog.intro = intro
 
                         keywords = title.replace("<title>", "")
@@ -215,9 +220,19 @@ class StoreContentFromFile(CronJobBase):
                             blog_content.content = conslusion
                             blog_content.save()
 
+                        shutil.move(file_path, destination_path)
+
         else:
             print(f"The folder '{folder_path}' does not exist.")
 
+
+def GenerateAndStoreContent():
+
+    geneate = WriteAmazonBlog()
+    geneate.do()
+
+    store = StoreContentFromFile()
+    store.do()
 
 class ScrapAmazonData(CronJobBase):
 

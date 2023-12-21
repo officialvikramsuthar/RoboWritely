@@ -1,5 +1,6 @@
 import os
 
+import jsonlines
 from selectorlib import Extractor
 import requests 
 import json 
@@ -12,17 +13,27 @@ e = Extractor.from_yaml_file(BASE_PATH + '/search_results.yml')
 def scrape(url):  
 
     headers = {
-        'dnt': '1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36',
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'sec-fetch-site': 'same-origin',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-user': '?1',
-        'sec-fetch-dest': 'document',
-        'referer': 'https://www.amazon.com/',
-        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
+        'Connection': 'keep-alive',
+        'Content-Length': '25',
+        'Content-Type': 'application/json',
+        'Cookie': '_ga=GA1.1.431629955.1700216595; csrftoken=9vYO3gNshcWdaDgp8S0CIAqONtTpmjXzR6dEechkALi9QPFCI4UMWWST59u12n08; sessionid=q8iuf9bq1p8jdfbkf1yfal7dahy7jtim; _ga_7F29Q8ZGH0=GS1.1.1702450996.46.1.1702451993.59.0.0',
+        'Key': '6d1409fc728c7cb105e1f28d9fcd44fa52b113cc',
+        'Referer': 'https://www.amazon.com/',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+        'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Linux"',
+        'x-csrftoken': '9vYO3gNshcWdaDgp8S0CIAqONtTpmjXzR6dEechkALi9QPFCI4UMWWST59u12n08'
+
     }
+
+
 
     # Download the page using requests
     print("Downloading %s"%url)
@@ -39,23 +50,46 @@ def scrape(url):
 
 
 def scrap_search_results():
+
+    url_data =  '''
+        [{
+      "Keyword": "Best Wearable Blanket Hoodie Under $50",
+      "URL": "https://www.amazon.com/s?k=wearable+blanket+hoodie&i=garden&rh=n%3A1055398%2Cp_72%3A1248915011%2Cp_36%3A1253524011&s=review-rank&dc&ds=v1%3AKloUPZTW05h%2FCZkq4Sz7M6F5VDpT0C4H9lP%2FaK4WyuI&crid=FTS2HJLQBQUM&qid=1702453585&rnid=386465011&sprefix=wearable%2Caps%2C340&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&ref=sr_nr_p_36_2"
+    }
+    ]
+    '''
+    url_data = json.loads(url_data)
     # product_data = []
     products_urls = []
-    with open(BASE_PATH + "/search_results_urls.txt",'r') as urllist, open(BASE_PATH + '/search_results_output.jsonl','w') as outfile:
-        for url in urllist.read().splitlines():
+    # with open(BASE_PATH + "/search_results_urls.json",'r') as urllist, open(BASE_PATH + '/search_results_output.jsonl','w') as outfile:
+    with open(BASE_PATH + '/search_results_output.jsonl','w') as outfile:
+        import ipdb;ipdb.set_trace()
+        for lines in url_data:
+            url = lines.get('URL')
+            keyword = lines.get('Keyword')
+
+            if not url:
+                continue
+
             data = scrape(url)
+
             if data:
+                product_list = []
+
                 for product in data['products']:
                     reviews_count = product.get("reviews", "")
                     reviews_count = reviews_count.replace(",", "")
+
                     if int(reviews_count) > 1000:
                         prod_url = product.get("url", "")
                         products_urls.append(prod_url)
                         product['search_url'] = url
                         print("Saving Product: %s"%product['title'])
-                        json.dump(product,outfile)
-                        outfile.write("\n")
-                    # sleep(5)
+                        product_list.append(product)
+
+                json.dump({keyword:product_list},outfile)
+                outfile.write("\n")
+                # sleep(5)
 
     with open(BASE_PATH + "/urls.txt", 'w') as urllist:
         for url in products_urls:

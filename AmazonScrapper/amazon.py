@@ -42,11 +42,35 @@ def scrape(url):
 
 def scrap_product_data():
     # product_data = []
-    with open(BASE_PATH + "/urls.txt",'r') as urllist, open(BASE_PATH + '/output.jsonl','w') as outfile:
-        for url in urllist.read().splitlines():
-            data = scrape(url)
-            if data:
-                data.setdefault("url",url)
-                json.dump(data,outfile)
+    # with open(BASE_PATH + "/urls.txt",'r') as urllist, open(BASE_PATH + '/output.jsonl','w') as outfile:
+    #     for url in urllist.read().splitlines():
+    #         data = scrape(url)
+    #         if data:
+    #             data.setdefault("url",url)
+    #             json.dump(data,outfile)
+    #             outfile.write("\n")
+    #             # sleep(5)
+    import jsonlines
+    with jsonlines.open(BASE_PATH + "/search_results_output.jsonl", "r") as product_details, open(BASE_PATH + '/output.jsonl','w') as outfile:
+        import ipdb;ipdb.set_trace()
+        for prod_detail in product_details:
+
+
+            for keyword, product in prod_detail.items():
+                prod_info = []
+
+                for prod in product:
+
+                    url = prod.get('url')
+                    data = scrape(url)
+
+                    if data:
+                        if "amazon.com" not in url:
+                            url = "https://www.amazon.com" + url
+
+                        data.setdefault("url",url)
+                        prod_info.append(data)
+
+                json.dump({keyword: prod_info},outfile)
                 outfile.write("\n")
                 # sleep(5)

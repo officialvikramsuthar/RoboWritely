@@ -24,7 +24,7 @@ class ChatGPTAutomation:
         self.chrome_path = chrome_path
         self.chrome_driver_path = chrome_driver_path
 
-        url = r"https://chat.openai.com"
+        url = r"https://chat.openai.com/?model=gpt-4"
         free_port = self.find_available_port()
         self.launch_chrome_with_remote_debugging(free_port, url)
         self.wait_for_human_verification()
@@ -67,12 +67,13 @@ class ChatGPTAutomation:
 
 
 
-    def send_prompt_to_chatgpt(self, prompt, wait_time=20):
+    def send_prompt_to_chatgpt(self, prompt, wait_time=40):
         """ Sends a message to ChatGPT and waits for 20 seconds for the response """
 
         input_box = self.driver.find_element(by=By.XPATH, value='//*[@id="prompt-textarea"]')
         # self.driver.execute_script(f"arguments[0].value = '{prompt}';", input_box)
         input_box.send_keys(prompt)
+        time.sleep(3)
         input_box.send_keys(Keys.RETURN)
         input_box.send_keys(Keys.RETURN)
         time.sleep(wait_time)
@@ -117,13 +118,23 @@ class ChatGPTAutomation:
         """ :return: the text of the last chatgpt response """
 
         response_elements = self.driver.find_elements(by=By.CSS_SELECTOR, value='div.text-base')
-        return response_elements[-1].text
+        element = response_elements[-1].find_element(by=By.CSS_SELECTOR, value="[data-message-author-role='assistant']")
+        return element.text
 
 
     def star_new_chat(self):
         new_chat_button = self.driver.find_element(by=By.XPATH, value='//*[@id="__next"]/div[1]/div[1]/div/div/div/div/nav/div[2]/div[1]/div/a/div[3]/span/button')
         time.sleep(5)
 
+    def blog_gpt_chat(self):
+        new_chat_button = self.driver.find_element(by=By.XPATH, value='/html/body/div[1]/div[1]/div[1]/div/div/div/div/nav/div[2]/div[2]/div[1]/a/div[2]')
+        new_chat_button.click()
+        time.sleep(10)
+        # self.driver.find_element(by=By.XPATH, value='//*[@id="radix-:rf:"]',).click();
+        # chat_gpt_4 = self.driver.find_element(by=By.XPATH, value='//*[@id="radix-:rg:"]/div[1]')
+        #
+        # if chat_gpt_4:
+        #     chat_gpt_4.click()
     def wait_for_human_verification(self):
         import time
         time.sleep(5)

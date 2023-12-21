@@ -27,8 +27,9 @@ def create_file(filename, content, directory_name="conversations"):
         file.write(content)
 
 
-def clean_chat_gpt_response(content, word_list, trim_comma=False):
-     
+def clean_chat_gpt_response(content, word_list=[ "\n", "Copy Code", "html", "ChatGPT"], trim_comma=False):
+
+
     for i in word_list:
           content = content.replace(i, "")
     

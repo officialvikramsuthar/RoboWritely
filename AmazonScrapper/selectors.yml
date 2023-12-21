@@ -1,5 +1,5 @@
 name:
-    css: '#productTitle'
+    css: '#title'
     type: Text
 price:
     css: '#price_inside_buybox'
@@ -10,12 +10,12 @@ short_description:
 images:
     css: '.imgTagWrapper img'
     type: Attribute
-    attribute: data-a-dynamic-image
+    attribute: src
 rating:
-    css: span.arp-rating-out-of-text
+    css: 'span.reviewCountTextLinkedHistogram'
     type: Text
 number_of_reviews:
-    css: 'a.a-link-normal h2'
+    css: 'span#acrCustomerReviewText'
     type: Text
 variants:
     css: 'form.a-section li'
@@ -32,6 +32,9 @@ variants:
             attribute: data-defaultasin
 product_description:
     css: '#productDescription'
+    type: Text
+bullet_description:
+    css: '#feature-bullets'
     type: Text
 sales_rank:
     css: 'li#SalesRank'
