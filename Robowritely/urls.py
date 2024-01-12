@@ -21,15 +21,17 @@ from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
 
-from Robowritely.sitemaps import BlogSitemap
+from Robowritely.sitemaps import BlogSitemap, StaticSitemap
 
 sitemaps = {
     "blog": BlogSitemap,
+    "static" :StaticSitemap,
 }
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('ContentCreation.urls')),
+    path("", include('PriceCompare.urls')),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap", ),
     path(r'robots.txt', TemplateView.as_view(template_name=settings.ROBOTSTXTFILENAME, content_type='text/plain')),
 ]

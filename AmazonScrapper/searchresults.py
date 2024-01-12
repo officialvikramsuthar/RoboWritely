@@ -53,9 +53,14 @@ def scrap_search_results():
 
     url_data =  '''
         [{
-      "Keyword": "Best Wearable Blanket Hoodie Under $50",
-      "URL": "https://www.amazon.com/s?k=wearable+blanket+hoodie&i=garden&rh=n%3A1055398%2Cp_72%3A1248915011%2Cp_36%3A1253524011&s=review-rank&dc&ds=v1%3AKloUPZTW05h%2FCZkq4Sz7M6F5VDpT0C4H9lP%2FaK4WyuI&crid=FTS2HJLQBQUM&qid=1702453585&rnid=386465011&sprefix=wearable%2Caps%2C340&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&ref=sr_nr_p_36_2"
-    }
+  "Keyword": "Best 1TB SSD FOR PC",
+  "URL": "https://www.amazon.com/s?k=wd+1+tb+ssd&i=computers&rh=n%3A1292116011%2Cp_n_feature_three_browse-bin%3A6797521011%2Cp_n_feature_twenty-five_browse-bin%3A21558461011&s=review-count-rank&dc&crid=AJZSETGN43I3&qid=1703223687&rnid=21558459011&sprefix=wd+1+tb+ss%2Caps%2C340&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&ref=sr_nr_p_n_feature_twenty-five_browse-bin_3&ds=v1%3AtRQ46N%2FTJUzUtPUGX3GiNfhHgSj3kJILljZPqUcsHic&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20&tag=refreshpage3-20"
+},
+{
+  "Keyword": "Best 1TB SSD FOR Laptop (M.2)",
+  "URL": "https://www.amazon.com/s?k=wd+1+tb+ssd+m.2&i=computers&rh=n%3A1292116011%2Cp_n_feature_three_browse-bin%3A6797521011%2Cp_n_feature_twenty-five_browse-bin%3A21558465011&s=review-rank&dc&qid=1703223865&rnid=21558459011&tag=refreshpage3-20%2Crefreshpage3-20%2Crefreshpage3-20%2Crefreshpage3-20&ref=sr_st_review-rank&ds=v1%3AHJTWGRbBh5nEI21DgEl3ODSyils%2FjqsYzNlBozu1T64"
+}
+
     ]
     '''
     url_data = json.loads(url_data)
@@ -73,7 +78,7 @@ def scrap_search_results():
 
             data = scrape(url)
 
-            if data:
+            if data and data.get('products'):
                 product_list = []
 
                 for product in data['products']:

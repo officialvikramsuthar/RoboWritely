@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.sitemaps",
-    "ContentCreation"
+    "ContentCreation",
+    "PriceCompare",
 ]
 
 ROBOTSTXTFILENAME = "robots.txt"

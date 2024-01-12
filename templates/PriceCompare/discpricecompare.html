@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<meta name="keywords" content="product reviews, top products, buying guide, recommendations, best in class, consumer advice, hard disc, SSD, laptop, PC storage price comparision in USA, India">
+<meta name="description" content= "Compare Hard Disk and SSD prices effortlessly across the USA, India, and the UK on our comprehensive site page. Find the best deals and make informed decisions on storage solutions tailored to your needs. Uncover the most competitive prices globally for a seamless shopping experience.">
+<title>Marketing Insight HQ- Compare Disc Prices</title>
+{% endblock %}
+
+{% block content %}
+
+<table  class="table table-striped">
+    <thead>
+        <tr>
+            <td>Price Per TB</td>
+            <td>Price</td>
+            <td>Capacity</td>
+            <td>Warranty</td>
+            <td>Form Factor</td>
+            <td>Tecnology</td>
+            <td>Condition</td>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for disc in disc_info %}
+    <tr>
+            <td>{{disc.price_per_tb}}</td>
+            <td>{{disc.price}}</td>
+            <td>{{disc.capacity}}</td>
+            <td>{{disc.warranty}}</td>
+            <td>{{disc.form_factor}}</td>
+            <td>{{disc.technology}}</td>
+            <td>{{disc.condition}}</td>
+            <td><a href="{{disc.Link}}">{{disc.name}}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -52,9 +52,8 @@ def scrap_product_data():
     #             # sleep(5)
     import jsonlines
     with jsonlines.open(BASE_PATH + "/search_results_output.jsonl", "r") as product_details, open(BASE_PATH + '/output.jsonl','w') as outfile:
-        import ipdb;ipdb.set_trace()
-        for prod_detail in product_details:
 
+        for prod_detail in product_details:
 
             for keyword, product in prod_detail.items():
                 prod_info = []

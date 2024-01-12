@@ -1,5 +1,5 @@
 products:
-    css: 'div[data-component-type="s-search-result"]'
+    css: 'div[data-cel-widget="search_result_1"]'
     xpath: null
     multiple: true
     type: Text

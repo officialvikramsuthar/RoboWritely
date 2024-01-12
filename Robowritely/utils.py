@@ -1,7 +1,8 @@
 import os
 import platform
 
-def get_chrome_path(BASE_DIR=None):
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+def get_chrome_path(BASE_DIR=BASE_DIR):
     get_platform = platform.platform()
     chrome_driver_path = ""
     chrome_path = ""

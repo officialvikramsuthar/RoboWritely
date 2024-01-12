@@ -10,7 +10,7 @@ import os
 
 class ChatGPTAutomation:
 
-    def __init__(self, chrome_path, chrome_driver_path):
+    def __init__(self, chrome_path, chrome_driver_path, url=r"https://chat.openai.com/?model=gpt-4"):
         """
         This constructor automates the following steps:
         1. Open a Chrome browser with remote debugging enabled at a specified URL.
@@ -24,7 +24,7 @@ class ChatGPTAutomation:
         self.chrome_path = chrome_path
         self.chrome_driver_path = chrome_driver_path
 
-        url = r"https://chat.openai.com/?model=gpt-4"
+        url = url
         free_port = self.find_available_port()
         self.launch_chrome_with_remote_debugging(free_port, url)
         self.wait_for_human_verification()
