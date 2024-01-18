@@ -7,33 +7,49 @@
 {% endblock %}
 
 {% block other_content %}
-
-<table  class="table table-striped table-responsive">
-    <thead>
-        <tr>
-            <td >Price Per TB</td>
-            <td>Price</td>
-            <td>Capacity</td>
-            <td>Warranty</td>
-            <td>Form Factor</td>
-            <td>Tecnology</td>
-            <td>Condition</td>
-            <td>Name</td>
-        </tr>
-    </thead>
-    <tbody>
-    {% for disc in disc_info %}
-    <tr>
-            <td>{{disc.price_per_tb}}</td>
-            <td>{{disc.price}}</td>
-            <td>{{disc.capacity}}</td>
-            <td>{{disc.warranty}}</td>
-            <td>{{disc.form_factor}}</td>
-            <td>{{disc.technology}}</td>
-            <td>{{disc.condition}}</td>
-            <td><a href="{{disc.Link}}">{{disc.name}}</a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<div class="px-5">
+<div class="row w-100">
+    <div class="col-md-2">
+         <ul class="list-group">
+            <a href="{% url 'ssd_disc_price_compare' 'USA' %}"><li class="list-group-item">USA</li></a>
+             <a href="{% url 'ssd_disc_price_compare' 'UK' %}"><li class="list-group-item">UK</li></a>
+             <a href="{% url 'ssd_disc_price_compare' 'IN' %}"><li class="list-group-item">INDIA</li></a>
+             <a href="{% url 'ssd_disc_price_compare' 'DE' %}"><li class="list-group-item">DE</li></a>
+             <a href="{% url 'ssd_disc_price_compare' 'FR' %}"><li class="list-group-item">France</li></a>
+             <a href="{% url 'ssd_disc_price_compare' 'CA' %}"><li class="list-group-item">Canada</li></a>
+             <a href="{% url 'ssd_disc_price_compare' 'AU' %}"><li class="list-group-item">Australia</li></a>
+          </ul>
+    </div>
+    <div class="col">
+        <table  class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <td >Price Per TB</td>
+                    <td>Price</td>
+                    <td>Capacity</td>
+                    <td>Warranty</td>
+                    <td>Form Factor</td>
+                    <td>Tecnology</td>
+                    <td>Condition</td>
+                    <td>Name</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for disc in disc_info %}
+            <tr>
+                    <td>{{disc.price_per_tb}}</td>
+                    <td>{{disc.price}}</td>
+                    <td>{{disc.capacity}}</td>
+                    <td>{{disc.warranty}}</td>
+                    <td>{{disc.form_factor}}</td>
+                    <td>{{disc.technology}}</td>
+                    <td>{{disc.condition}}</td>
+                    <td><a href="{{disc.Link}}">{{disc.name}}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
 {% endblock %}

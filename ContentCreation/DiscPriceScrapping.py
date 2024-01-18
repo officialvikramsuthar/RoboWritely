@@ -35,7 +35,7 @@ def replace_query_string(url, param_name, new_value):
 def DiscPriceScrapping():
     chrome_path, chrome_driver_path = get_chrome_path(BASE_DIR)
     file_path = os.path.join(BASE_DIR, "output.jsonl")
-    driver = ChatGPTAutomation(chrome_path, chrome_driver_path, url='https://diskprices.com/')
+    driver = ChatGPTAutomation(chrome_path, chrome_driver_path, url='https://diskprices.com/?locale=se')
 
     time.sleep(3)
     response = driver.driver.page_source
@@ -47,7 +47,7 @@ def DiscPriceScrapping():
     field_header = ["price_per_gb","price_per_tb","price", "capacity", "warranty", "form_factor", "technology", "condition", "name"]
     for row in table.find_all('tr'):
         bulk_obj = DiscPrice()
-        bulk_obj.country = "USA"
+        bulk_obj.country = "SE"
         print(len(row.find_all('td')))
         link = row.find('a')
 
