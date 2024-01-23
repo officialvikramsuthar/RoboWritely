@@ -93,3 +93,23 @@ class StaticTechnologySitemap(Sitemap):
 
     def location(self, item):
         return reverse(item[0], kwargs={'country':item[1], 'technology':item[2],'condition':item[3]})
+
+class StaticCountryHomeSitemap(Sitemap):
+    """Reverse 'static' views for XML sitemap."""
+    changefreq = "daily"
+    priority = 0.5
+
+    def items(self):
+        country_list = ["USA","IN","UK","FR","DE","CA","AU"]
+        page_name = ['country_home']
+        page_country_list = []
+
+        for country in country_list:
+            for page in page_name:
+                page_country_list.append((page, country))
+                page_country_list.append((page, country))
+
+        return page_country_list
+
+    def location(self, item):
+        return reverse(item[0], kwargs={'country':item[1]})

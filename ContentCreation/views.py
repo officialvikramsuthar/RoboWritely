@@ -11,9 +11,14 @@ def display_blog_post(request, id,  slug):
     context = {'blog_post': blog_post, 'paragraphs':paragraphs}
     return render(request, 'ContentCreation/blogpost.html', context)
 
-def generate_country_urls(country_list=[]):
+def generate_country_urls(country=None):
     # Create a list of URLs for each country
-    country_list = ["USA", "IN", "UK", "FR", "DE", "CA", "AU"]
+
+    if country:
+        country_list = [country]
+    else:
+        country_list = ["USA", "IN", "UK", "FR", "DE", "CA", "AU"]
+
     page_name_list = ['hard_disc_price_compare', "disc_price_compare", "ssd_disc_price_compare",
                       "compare_ssd_price", "compare-ssd-hdd-prices", "top-ssd-vs-hdd-price-guide", "ssd-hdd-price-battle", "discounted-ssd-hdd-prices",
                       "ultimate-ssd-hdd-price-check", "compare-leading-ssd-hdd-prices", "ssd-hdd-cost-analysis", "budget-friendly-ssd-vs-hdd-pricing"]
@@ -67,10 +72,10 @@ def generate_country_urls(country_list=[]):
 
     return list(set(urls))
 
-def home(request):
+def home(request, country=None):
 
 
-    urls = generate_country_urls()
+    urls = generate_country_urls(country)
     context ={'urls':urls}
 
     return render(request, 'ContentCreation/home.html', context)
