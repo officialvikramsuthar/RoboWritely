@@ -21,11 +21,13 @@ from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
 
-from Robowritely.sitemaps import BlogSitemap, StaticSitemap
+from Robowritely.sitemaps import BlogSitemap, StaticSitemap, StaticPageSitemap, StaticTechnologySitemap
 
 sitemaps = {
     "blog": BlogSitemap,
     "static" :StaticSitemap,
+    "static2" : StaticPageSitemap,
+    "statictech":StaticTechnologySitemap,
 }
 
 urlpatterns = [

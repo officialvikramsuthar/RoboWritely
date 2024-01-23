@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<meta name="keywords" content="product reviews, top products, buying guide, recommendations, best in class, consumer advice, hard disc, SSD, laptop, PC storage price comparision in USA, India">
-<meta name="description" content= "Compare Hard Disk and SSD prices effortlessly across the USA, India, and the UK on our comprehensive site page. Find the best deals and make informed decisions on storage solutions tailored to your needs. Uncover the most competitive prices globally for a seamless shopping experience.">
-<title>Marketing Insight HQ- Compare Disc Prices</title>
+<meta name="keywords" content="{{ page_keywords}}">
+<meta name="description" content="{{ page_description}}" >
+<title>Marketing Insight HQ- {{page_title}}</title>
 {% endblock %}
 
 {% block other_content %}
@@ -21,6 +21,7 @@
           </ul>
     </div>
     <div class="col">
+        {% if disc_info %}
         <table  class="table table-striped table-responsive">
             <thead>
                 <tr>
@@ -49,6 +50,9 @@
             {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h1>No Data Found.</h1>
+        {% endif %}
     </div>
 </div>
 </div>

@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Home</h1>
-
-    <div class="blog-list">
-        {% for blog in latest_blogs %}
-            <article class="blog-post card p-3 mb-3">
-                <h3><a href="{% url 'display_blog_post' blog.id blog.slug %}">{{ blog.heading }}</a></h3>
-                <div class="content">
-                    {{ blog.intro | safe | slice:":300" }}...
-                </div>
-                <p class="timestamp">{{ blog.created_at }}</p>
-            </article>
+    <h1>Compare Best Storage Avaialble at Amazon in Your Country</h1>
+    <table class="table table-striped table-responsive">
+        {%for url in urls %}
+        <tr><td><a href="{{url.1}}">
+            {{ url.0 }}
+        </a></td></tr>
         {% endfor %}
-    </div>
+    </table>
 {% endblock %}
