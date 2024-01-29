@@ -20,6 +20,7 @@ from django.template.defaulttags import url
 from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
+from django.conf.urls.static import static
 
 from Robowritely.sitemaps import BlogSitemap, StaticSitemap, StaticPageSitemap, StaticTechnologySitemap, StaticCountryHomeSitemap
 
@@ -37,7 +38,7 @@ urlpatterns = [
     path("", include('PriceCompare.urls')),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap", ),
     path(r'robots.txt', TemplateView.as_view(template_name=settings.ROBOTSTXTFILENAME, content_type='text/plain')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 

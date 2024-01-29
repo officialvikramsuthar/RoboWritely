@@ -58,6 +58,16 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+COUNTRY_LOGO_MAPPING = {
+        "USA" : "us",
+        "UK" : "gb",
+        "FR": "fr",
+        "CA": "ca",
+        "IN": "in",
+        "AU": "au",
+        "DE": "de",
+    }
+
 ROOT_URLCONF = "Robowritely.urls"
 
 TEMPLATES = [
@@ -135,8 +145,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRON_CLASSES = [
     'ContentCreation.cron.GenerateContentCronJob',
     'ContentCreation.cron.StoreContentFromFile',
-    # Add more cron jobs here if needed
 ]
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'Robowritely/static/')
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
+STATICFILES_DIRS = (
+os.path.join(TEMPLATE_DIR, "static"),)

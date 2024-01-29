@@ -1,4 +1,4 @@
-
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.urls import get_resolver, reverse
 from PriceCompare.models import DiscPrice
@@ -72,10 +72,11 @@ def generate_country_urls(country=None):
 
     return list(set(urls))
 
-def home(request, country=None):
+def home(request, country="USA"):
 
-
+    country = country.upper()
     urls = generate_country_urls(country)
-    context ={'urls':urls}
+
+    context ={'urls':urls, 'country': settings.COUNTRY_LOGO_MAPPING.get(country, "us")}
 
     return render(request, 'ContentCreation/home.html', context)

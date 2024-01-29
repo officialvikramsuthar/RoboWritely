@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
@@ -12,8 +12,19 @@
     <meta name="description" content="Explore in-depth reviews and expert recommendations for the best products in various categories. Make informed buying decisions with our comprehensive guides.">
     <title>Marketing Insight HQ- Top Product Reviews and Recommendations</title>
     {% endblock %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'icons/apple-touch-icon.png' }">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'icons/apple-touch-icon.png' }">
+    <link rel="icon" type="image/png" sizes="64x64" href="{% static 'icons/apple-touch-icon.png' }">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' }">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'icons/android-chrome-192x192.png' }">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'icons/apple-touch-icon.png' }">
+
     <style>
         /* Custom CSS for sticky footer layout */
         body {
@@ -81,6 +92,6 @@
     {% endblock %}
     {% include 'footer.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>
