@@ -6,7 +6,7 @@
 /audiobooks
 /conversations
 /remote-profile
-/templates/static
+# /templates/static
 __pycache__
 Robowritely/db.sqlite3
 media
