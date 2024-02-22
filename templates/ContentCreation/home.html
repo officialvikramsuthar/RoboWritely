@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Compare Best Storage Avaialble at Amazon in {{country|upper}}</h1>
-    <table class="table table-striped table-responsive">
+    <div class="table-responsive">
+    <table class="table table-striped table-dark">
+        <tr>
+            <th class="text-center">Sr#</th>
+            <th>Top Link</th>
+        </tr>
         {%for url in urls %}
-        <tr><td><a href="{{url.1}}">
+        <tr>
+            <td class="text-center p-3">{{forloop.counter}}</td>
+            <td class="p-3" width="80%"><a href="{{url.1}}">
             {{ url.0 }}
         </a></td></tr>
         {% endfor %}
     </table>
+    </div>
 {% endblock %}
