@@ -180,7 +180,9 @@
   font-weight: 900;
   font-style: italic;
 }
+        a:hover{color:grey !important;}
     </style>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GTPGCJQWVZ"></script>
@@ -203,7 +205,15 @@
     {% block other_content %}
     {% endblock %}
     {% include 'footer.html' %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
+<script>
+    $(document).ready( function () {
+    $('#myTable').DataTable({
+        pageLength: 50
+    });
+    } );
+</script>
 </body>
 </html>
